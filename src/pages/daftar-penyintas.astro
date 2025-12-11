@@ -1,0 +1,148 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Pendataan Penyintas RDP">
+  <div class="bg-white p-8 rounded-lg shadow-lg mt-6 border-t-4 border-orange-500">
+    <h1 class="text-2xl font-bold text-orange-700 mb-2">Form Data Penyintas/Pengungsi</h1>
+    <p class="text-gray-600 mb-6">Pendataan kebutuhan keluarga terdampak bencana.</p>
+    
+    <form id="formPenyintas" class="space-y-6">
+      <input type="hidden" name="type" value="penyintas">
+
+      <div class="bg-orange-50 p-5 rounded-md border border-orange-200">
+        <h3 class="font-semibold text-orange-800 mb-4 border-b border-orange-200 pb-2">A. Data Kepala Keluarga & Lokasi</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Nama Kepala Keluarga / Wali</label>
+                <input type="text" name="NamaKK" required class="w-full p-2 border rounded focus:ring-2 focus:ring-orange-500 bg-white">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">No. HP / WhatsApp</label>
+                <input type="number" name="Kontak" required class="w-full p-2 border rounded bg-white">
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium mb-1">Alamat Lengkap (Asal/Rumah)</label>
+                <input type="text" name="Alamat" placeholder="Nama Jalan, RT/RW, Dusun, Desa" class="w-full p-2 border rounded bg-white">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Lokasi Mengungsi Saat Ini</label>
+                <select name="Lokasi" class="w-full p-2 border rounded bg-white">
+                    <option value="Tenda Pengungsian">Tenda Pengungsian</option>
+                    <option value="Menumpang Saudara">Menumpang Kerabat/Saudara</option>
+                    <option value="Bertahan di Rumah">Bertahan di Rumah (Rusak Ringan)</option>
+                    <option value="Fasilitas Umum">Masjid / Sekolah / Balai Desa</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Jumlah Anggota Keluarga (Jiwa)</label>
+                <input type="number" name="JumlahKeluarga" placeholder="Contoh: 4" required class="w-full p-2 border rounded bg-white">
+            </div>
+
+             <div class="md:col-span-2">
+                <label class="block text-sm font-medium mb-1">Gambaran Kondisi / Cerita Singkat</label>
+                <textarea 
+                    name="GambaranKondisi" 
+                    rows="3" 
+                    placeholder="Ceritakan kondisi rumah atau kondisi kesehatan keluarga saat ini..." 
+                    class="w-full p-2 border rounded bg-white focus:ring-2 focus:ring-orange-500"></textarea>
+            </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 p-5 rounded-md border border-gray-200">
+        <h3 class="font-semibold text-gray-800 mb-3 border-b pb-2">B. Kebutuhan Mendesak</h3>
+        <p class="text-xs text-gray-500 mb-3">Centang kebutuhan yang paling prioritas saat ini.</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Perlengkapan Sekolah" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">🎒 Perlengkapan Sekolah (Tas/Buku)</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Seragam" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">👕 Pakaian / Seragam Sekolah</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Makanan Bayi/Balita" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">🍼 Makanan Bayi / Balita</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Tenda/Terpal" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">⛺ Tenda / Terpal / Alas Tidur</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Air Bersih" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">💧 Air Bersih / Sanitasi</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 bg-white rounded border cursor-pointer hover:bg-gray-50 transition">
+                <input type="checkbox" name="KebutuhanCheck" value="Trauma Healing" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+                <span class="text-sm font-medium">🤹 Pendampingan Anak (Trauma Healing)</span>
+            </label>
+        </div>
+      </div>
+
+      <button type="submit" id="btnSubmit" class="w-full bg-orange-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-orange-700 transition shadow-md">
+        Kirim Data Penyintas
+      </button>
+    </form>
+    
+    <div id="notif" class="hidden mt-6 text-center font-semibold p-4 rounded-lg border"></div>
+  </div>
+
+  <script>
+    // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE SCRIPT ANDA
+    const API_URL = "https://script.google.com/macros/s/AKfycbxUMAtYm_UqGQpu3sxU2FsgRqDT7Epuvqa79Ia_L6FIVTJ0T2tt4ZVOdqC0RQ1yTbk/exec";
+
+    const form = document.getElementById('formPenyintas');
+    const notif = document.getElementById('notif');
+    const btn = document.getElementById('btnSubmit');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        btn.innerText = "Sedang Mengirim...";
+        btn.disabled = true;
+        btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        // Handle Checkbox Array
+        const kebutuhanDipilih = [];
+        document.querySelectorAll('input[name="KebutuhanCheck"]:checked').forEach((cb) => {
+            kebutuhanDipilih.push(cb.value);
+        });
+        data.Kebutuhan = kebutuhanDipilih.join(", "); 
+
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            notif.innerText = "✅ Data berhasil dikirim! Tim kami akan segera memproses.";
+            notif.className = "mt-6 text-center font-bold text-green-800 bg-green-50 p-4 rounded-lg border border-green-200 block";
+            
+            form.reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } catch (err) {
+            notif.innerText = "❌ Gagal mengirim data. Pastikan koneksi internet lancar.";
+            notif.className = "mt-6 text-center font-bold text-red-800 bg-red-50 p-4 rounded-lg border border-red-200 block";
+        } finally {
+            btn.innerText = "Kirim Data Penyintas";
+            btn.disabled = false;
+            btn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+    });
+  </script>
+</Layout>
