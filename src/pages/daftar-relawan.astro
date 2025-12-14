@@ -1,204 +1,268 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// LOGIC TANGGAL DEADLINE
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = today.getMonth(); // 0 = Jan, 11 = Dec
+const deadlineDate = 18; // Tanggal 18
+
+// Set waktu deadline ke tanggal 18 bulan ini jam 23:59
+const deadline = new Date(currentYear, currentMonth, deadlineDate, 23, 59, 59);
+const isClosed = today > deadline;
+
+// Format tanggal untuk tampilan user
+const dateString = deadline.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
-<Layout title="Pendaftaran Relawan RDP">
+<Layout title="Pendaftaran Relawan RDP Batch 1">
   <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-2xl my-10 border-t-8 border-green-700">
     
     <header class="mb-8 text-center">
       <h1 class="text-3xl font-extrabold text-green-800">FORM PENDATAAN RELAWAN</h1>
       <p class="text-gray-600 font-medium mt-2">Respon Darurat Pendidikan (RDP) - Bencana Sumatera</p>
-      <p class="text-sm text-gray-500">GREAT Edunesia Dompet Dhuafa</p>
+      
+      { !isClosed ? (
+        <div class="mt-4 bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-2 rounded-lg inline-block text-sm font-semibold animate-pulse">
+            ⚠️ Batas Pengisian: {dateString} pukul 23:59 WIB
+        </div>
+      ) : (
+        <div class="mt-4 bg-red-100 border border-red-200 text-red-800 px-6 py-3 rounded-lg inline-block font-bold">
+            ⛔ PENDAFTARAN BATCH 1 DITUTUP
+        </div>
+      )}
     </header>
 
-    <form id="formRelawan" class="space-y-10">
-      <input type="hidden" name="type" value="relawan">
-
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">A. Informasi Pribadi</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <div>
-            <label class="label">Nama Lengkap</label>
-            <input type="text" name="Nama" required class="input-field">
-          </div>
-          
-          <div>
-            <label class="label">No. WhatsApp / HP</label>
-            <input type="text" name="Kontak" required class="input-field">
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-             <div>
-                <label class="label">Jenis Kelamin</label>
-                <select name="JenisKelamin" class="input-field">
-                  <option value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
-                </select>
-             </div>
-             <div>
-                <label class="label">Domisili (Kota/Kab)</label>
-                <input type="text" name="Domisili" required class="input-field">
-             </div>
-          </div>
-          
-          <div class="md:col-span-2">
-            <label class="label">Alamat Lengkap</label>
-            <textarea name="AlamatLengkap" rows="2" class="input-field"></textarea>
-          </div>
-        </div>
-      </section>
-
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">B. Afiliasi Dompet Dhuafa</h2>
-        
-        <div>
-          <label class="label mb-2 block">Status Anda (Pilih satu atau lebih)</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-gray-50 p-4 rounded border">
-             <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Penerima Manfaat"> Penerima Manfaat Aktif</label>
-             <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Alumni DD"> Alumni Program Pendidikan DD</label>
-             <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Diaspora Insan DD"> Diaspora Insan Dompet Dhuafa</label>
-             <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Relawan Umum"> Relawan Umum</label>
-             <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Lainnya"> Lainnya</label>
-          </div>
-        </div>
-
-        <div>
-            <label class="label mb-2 block font-bold text-green-700">Jika Alumni atau PM Aktif, Asal Program:</label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Etos ID"> Etos ID</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="BAKTI NUSA"> BAKTI NUSA</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SGI"> Sekolah Guru Indonesia</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SLI"> Sekolah Literasi Indonesia</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Umar Usman"> Umar Usman</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SMART Ekselensia"> SMART Ekselensia Indonesia</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Institut Kemandirian"> Institut Kemandirian (IK)</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="YES"> Youth Ekselensia Scholarship</label>
-                <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Lainnya"> Lainnya</label>
+    { isClosed ? (
+        // TAMPILAN JIKA DITUTUP
+        <div class="text-center py-10 space-y-4">
+            <div class="text-6xl">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-700">Terima Kasih atas Antusiasme Anda!</h2>
+            <p class="text-gray-600 max-w-lg mx-auto">
+                Pendaftaran Batch 1 Relawan Respon Darurat Pendidikan telah ditutup. 
+                Data yang masuk sedang kami verifikasi. Silakan tunggu informasi pembukaan <strong>Batch Selanjutnya</strong>.
+            </p>
+            <div class="mt-8">
+                <a href="/" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">Kembali ke Beranda</a>
             </div>
         </div>
-      </section>
+    ) : (
+        // TAMPILAN FORM (JIKA BELUM DITUTUP)
+        <form id="formRelawan" class="space-y-10">
+        <input type="hidden" name="type" value="relawan">
 
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">C. Kapasitas & Kompetensi</h2>
-        
-        <div>
-            <label class="label">Riwayat Pendidikan Terakhir (Jurusan - Kampus)</label>
-            <input type="text" name="PendidikanTerakhir" placeholder="Contoh: Psikologi - UI" class="input-field">
-        </div>
-
-        <div>
-            <label class="label mb-2 block font-bold text-green-700">Bidang Keahlian (Pilih Lebih dari Satu)</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-4 rounded border">
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="PAUD"> Pendidikan Anak / PAUD</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Guru Mapel"> Pendidikan SD/SMP/SMA</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Psikososial"> Psikososial / PFA</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Manajemen Anak"> Manajemen Kegiatan Anak</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Outbound"> Fasilitator Outbound</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Medis"> Medis / Kesehatan</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Logistik"> Logistik & Dapur Umum</label>
-                <label class="check-label"><input type="checkbox" name="Keahlian" value="Vokasi"> Vokasi (Cukur, Servis, dll)</label>
-            </div>
-        </div>
-        
-        <div>
-            <label class="label">Sertifikasi / Pelatihan Relevan</label>
-            <input type="text" name="Sertifikasi" placeholder="Misal: Sertifikat PFA, TOT Bencana" class="input-field">
-        </div>
-      </section>
-
-      <section class="space-y-4">
-         <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">D. Pengalaman</h2>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-             <div>
-                 <label class="label">Pernah Terlibat Respon Bencana?</label>
-                 <select name="PengalamanBencana" class="input-field">
-                     <option value="Tidak">Belum Pernah</option>
-                     <option value="Ya">Ya, Pernah</option>
-                 </select>
-             </div>
-             <div>
-                 <label class="label">Pengalaman Mengajar Anak?</label>
-                 <select name="PengalamanMengajar" class="input-field">
-                    <option value="Belum">Belum Pernah</option>
-                    <option value="Pernah">Pernah</option>
-                </select>
-             </div>
-             <div class="md:col-span-2">
-                 <label class="label">Jika Ya, Sebutkan Detail (Lokasi/Tahun/Peran)</label>
-                 <textarea name="DetailPengalaman" class="input-field" rows="2"></textarea>
-             </div>
-         </div>
-      </section>
-
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">E. Kesiapan Mobilisasi</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">A. Informasi Pribadi</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="label">Ketersediaan Waktu</label>
-                <select name="DurasiSiap" class="input-field font-bold text-green-700">
-                    <option value="1-2 Minggu">1 - 2 Minggu</option>
-                    <option value=">2 Minggu">Lebih dari 2 Minggu</option>
-                    <option value="Daring">Hanya Daring (Non-Lapangan)</option>
-                </select>
+                <label class="label">Nama Lengkap</label>
+                <input type="text" name="Nama" required class="input-field">
             </div>
             <div>
-                <label class="label">Mulai Siap Tanggal</label>
-                <input type="date" name="TanggalMulai" class="input-field">
+                <label class="label">No. WhatsApp / HP</label>
+                <input type="text" name="Kontak" required class="input-field">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="label">Jenis Kelamin</label>
+                    <select name="JenisKelamin" class="input-field">
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label">Domisili (Kota/Kab)</label>
+                    <input type="text" name="Domisili" required class="input-field">
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <label class="label">Alamat Lengkap</label>
+                <textarea name="AlamatLengkap" rows="2" class="input-field"></textarea>
+            </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">B. Afiliasi & Program</h2>
+            
+            <div>
+            <label class="label mb-2 block">Status Anda:</label>
+            <div class="bg-gray-50 p-4 rounded border space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Penerima Manfaat"> Penerima Manfaat Aktif</label>
+                    <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Alumni DD"> Alumni Program Pendidikan DD</label>
+                    <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Diaspora Insan DD"> Diaspora Insan Dompet Dhuafa</label>
+                    <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Insan YPUU/GE"> Insan GREAT Edunesia</label>
+                    <label class="check-label"><input type="checkbox" name="StatusAfiliasi" value="Relawan Umum"> Relawan Umum</label>
+                </div>
+                <div class="mt-2">
+                    <label class="check-label inline-flex items-center">
+                        <input type="checkbox" id="chkStatusLain" name="StatusAfiliasi" value="Lainnya"> 
+                        <span class="ml-2">Lainnya</span>
+                    </label>
+                    <input type="text" id="inputStatusLain" placeholder="Sebutkan..." class="hidden w-full mt-1 p-2 border rounded text-sm focus:ring-1 focus:ring-green-500">
+                </div>
+            </div>
+            </div>
+
+            <div>
+                <label class="label mb-2 block font-bold text-green-700">Pilih Asal Program/Unit GREAT Edunesia:</label>
+                <div class="bg-gray-50 p-4 rounded border space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Etos ID"> Etos ID</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="BAKTI NUSA"> BAKTI NUSA</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SGI"> Sekolah Guru Indonesia</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SLI"> Sekolah Literasi Indonesia</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Umar Usman"> Umar Usman</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SMART Ekselensia"> SMART Ekselensia</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Institut Kemandirian"> Institut Kemandirian (IK)</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="YES"> Youth Ekselensia Scholarship</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="STIM Budi Bakti"> STIM Budi Bakti</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="SSC"> SSC</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Al-Syukro"> Al-Syukro</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="Budaya"> Budaya</label>
+                        <label class="flex gap-2 items-center"><input type="checkbox" name="AsalProgram" value="IDEAS"> IDEAS</label>
+                    </div>
+                    <div class="mt-2">
+                        <label class="check-label inline-flex items-center">
+                            <input type="checkbox" id="chkProgramLain" name="AsalProgram" value="Lainnya"> 
+                            <span class="ml-2">Lainnya</span>
+                        </label>
+                        <input type="text" id="inputProgramLain" placeholder="Sebutkan program lainnya..." class="hidden w-full mt-1 p-2 border rounded text-sm focus:ring-1 focus:ring-green-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">C. Kapasitas & Kompetensi</h2>
+            
+            <div>
+                <label class="label">Riwayat Pendidikan Terakhir (Jurusan - Kampus)</label>
+                <input type="text" name="PendidikanTerakhir" placeholder="Contoh: Psikologi - UI" class="input-field">
+            </div>
+
+            <div>
+                <label class="label mb-2 block font-bold text-green-700">Bidang Keahlian (Pilih Lebih dari Satu)</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-4 rounded border">
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="PAUD"> Pendidikan Anak / PAUD</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Guru Mapel"> Pendidikan SD/SMP/SMA</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Psikososial"> Psikososial / PFA</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Manajemen Anak"> Manajemen Kegiatan Anak</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Outbound"> Fasilitator Outbound</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Medis"> Medis / Kesehatan</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Logistik"> Logistik & Dapur Umum</label>
+                    <label class="check-label"><input type="checkbox" name="Keahlian" value="Vokasi"> Vokasi (Cukur, Servis, dll)</label>
+                </div>
+            </div>
+            
+            <div>
+                <label class="label">Sertifikasi / Pelatihan Relevan</label>
+                <input type="text" name="Sertifikasi" placeholder="Misal: Sertifikat PFA, TOT Bencana" class="input-field">
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">D. Pengalaman</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="label">Pernah Terlibat Respon Bencana?</label>
+                    <select name="PengalamanBencana" class="input-field">
+                        <option value="Tidak">Belum Pernah</option>
+                        <option value="Ya">Ya, Pernah</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label">Pengalaman Mengajar Anak?</label>
+                    <select name="PengalamanMengajar" class="input-field">
+                        <option value="Belum">Belum Pernah</option>
+                        <option value="Pernah">Pernah</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="label">Jika Ya, Sebutkan Detail (Lokasi/Tahun/Peran)</label>
+                    <textarea name="DetailPengalaman" class="input-field" rows="2" placeholder="Ceritakan singkat pengalaman Anda..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">E. Kesiapan Mobilisasi</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="label">Ketersediaan Waktu</label>
+                    <select name="DurasiSiap" class="input-field font-bold text-green-700">
+                        <option value="1-2 Minggu">1 - 2 Minggu</option>
+                        <option value=">2 Minggu">Lebih dari 2 Minggu</option>
+                        <option value="Daring">Hanya Daring (Non-Lapangan)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label">Mulai Siap Tanggal</label>
+                    <input type="date" name="TanggalMulai" class="input-field">
+                </div>
+                <div>
+                    <label class="label">Ada Transportasi Pribadi?</label>
+                    <select name="Transportasi" class="input-field">
+                        <option value="Tidak">Tidak</option>
+                        <option value="Ada">Ada</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label">Bersedia Tinggal di Lokasi/Tenda?</label>
+                    <select name="BersediaDiLokasi" class="input-field">
+                        <option value="Ya">Ya, Bersedia</option>
+                        <option value="Tidak">Tidak (Pulang Pergi)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">G. Motivasi & Peran</h2>
+            <div>
+                <label class="label">Alasan Ingin Bergabung (Singkat)</label>
+                <textarea name="Motivasi" class="input-field" rows="3" required placeholder="Apa yang memotivasi Anda bergabung?"></textarea>
             </div>
             <div>
-                <label class="label">Ada Transportasi Pribadi?</label>
-                <select name="Transportasi" class="input-field">
-                    <option value="Tidak">Tidak</option>
-                    <option value="Ada">Ada</option>
-                </select>
+                <label class="label block mb-2">Peran yang Paling Diminati</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-gray-50 p-4 rounded border">
+                    <label class="check-label"><input type="radio" name="PeranDiminati" value="Sekolah Ceria" required> Fasilitator Sekolah Ceria</label>
+                    <label class="check-label"><input type="radio" name="PeranDiminati" value="Psikososial"> Fasilitator Psikososial</label>
+                    <label class="check-label"><input type="radio" name="PeranDiminati" value="Vokasi"> Layanan Vokasi</label>
+                    <label class="check-label"><input type="radio" name="PeranDiminati" value="Logistik"> Logistik / Umum</label>
+                    
+                    <div class="sm:col-span-2 mt-1">
+                         <label class="check-label inline-flex items-center">
+                            <input type="radio" id="radPeranLain" name="PeranDiminati" value="Lainnya"> 
+                            <span class="ml-2">Lainnya</span>
+                        </label>
+                        <input type="text" id="inputPeranLain" placeholder="Peran yang diminati..." class="hidden w-full mt-1 p-2 border rounded text-sm focus:ring-1 focus:ring-green-500">
+                    </div>
+                </div>
             </div>
-            <div>
-                <label class="label">Bersedia Tinggal di Lokasi/Tenda?</label>
-                <select name="BersediaDiLokasi" class="input-field">
-                    <option value="Ya">Ya, Bersedia</option>
-                    <option value="Tidak">Tidak</option>
-                </select>
-            </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="space-y-4">
-          <h2 class="text-xl font-bold text-gray-800 border-b-2 border-green-100 pb-2">G. Motivasi & Peran</h2>
-          <div>
-              <label class="label">Alasan Ingin Bergabung (Singkat)</label>
-              <textarea name="Motivasi" class="input-field" rows="3" required></textarea>
-          </div>
-          <div>
-              <label class="label block mb-2">Peran yang Paling Diminati</label>
-              <div class="grid grid-cols-2 gap-2">
-                  <label class="check-label"><input type="radio" name="PeranDiminati" value="Sekolah Ceria" required> Fasilitator Sekolah Ceria</label>
-                  <label class="check-label"><input type="radio" name="PeranDiminati" value="Psikososial"> Fasilitator Psikososial</label>
-                  <label class="check-label"><input type="radio" name="PeranDiminati" value="Vokasi"> Layanan Vokasi</label>
-                  <label class="check-label"><input type="radio" name="PeranDiminati" value="Logistik"> Logistik / Umum</label>
-              </div>
-          </div>
-      </section>
+        <section class="bg-gray-100 p-6 rounded-lg border border-gray-300">
+            <h3 class="font-bold text-gray-800 mb-4">I. Pernyataan Kesediaan</h3>
+            <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2 mb-4">
+                <li>Saya menyatakan informasi yang diisi adalah benar.</li>
+                <li>Bersedia mengikuti proses pelatihan/briefing RDP.</li>
+                <li>Siap mematuhi SOP keselamatan dan etika kerja relawan GREAT Edunesia.</li>
+                <li>Bersedia ditugaskan sesuai kebutuhan lapangan.</li>
+            </ul>
+            <label class="flex items-center gap-3 font-bold text-green-800 cursor-pointer">
+                <input type="checkbox" name="PernyataanSetuju" value="Setuju" required class="w-6 h-6 text-green-600 focus:ring-green-500 rounded">
+                SAYA SETUJU DENGAN PERNYATAAN DI ATAS
+            </label>
+        </section>
 
-      <section class="bg-gray-100 p-6 rounded-lg border border-gray-300">
-          <h3 class="font-bold text-gray-800 mb-4">I. Pernyataan Kesediaan</h3>
-          <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2 mb-4">
-              <li>Saya menyatakan informasi yang diisi adalah benar.</li>
-              <li>Bersedia mengikuti proses pelatihan/briefing RDP.</li>
-              <li>Siap mematuhi SOP keselamatan dan etika kerja relawan GREAT Edunesia.</li>
-              <li>Bersedia ditugaskan sesuai kebutuhan lapangan.</li>
-          </ul>
-          <label class="flex items-center gap-3 font-bold text-green-800 cursor-pointer">
-              <input type="checkbox" name="PernyataanSetuju" value="Setuju" required class="w-6 h-6 text-green-600 focus:ring-green-500 rounded">
-              SAYA SETUJU DENGAN PERNYATAAN DI ATAS
-          </label>
-      </section>
+        <button type="submit" id="btnSubmit" class="w-full bg-green-700 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-800 transition shadow-lg transform hover:-translate-y-1">
+            KIRIM FORMULIR RELAWAN
+        </button>
 
-      <button type="submit" id="btnSubmit" class="w-full bg-green-700 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-800 transition shadow-lg transform hover:-translate-y-1">
-        KIRIM FORMULIR RELAWAN
-      </button>
-
-    </form>
+        </form>
+    )}
     <div id="notif" class="hidden mt-6 text-center font-bold p-4 rounded-lg"></div>
   </div>
 
@@ -209,52 +273,122 @@ import Layout from '../layouts/Layout.astro';
   </style>
 
   <script>
-    // MASUKKAN URL GOOGLE SCRIPT ANDA DISINI
+    // URL Web App Google Script Anda
+    // PENTING: Ganti dengan URL deployment terbaru Anda
     const API_URL = "https://script.google.com/macros/s/AKfycbxUMAtYm_UqGQpu3sxU2FsgRqDT7Epuvqa79Ia_L6FIVTJ0T2tt4ZVOdqC0RQ1yTbk/exec"; 
 
+    // --- LOGIC INPUT LAINNYA ---
+    const toggleInput = (checkboxId, inputId) => {
+        const checkbox = document.getElementById(checkboxId);
+        const input = document.getElementById(inputId);
+        if(checkbox && input) {
+            checkbox.addEventListener('change', () => {
+                if(checkbox.checked) {
+                    input.classList.remove('hidden');
+                    input.focus();
+                } else {
+                    input.classList.add('hidden');
+                    input.value = ''; // Reset value
+                }
+            });
+        }
+    }
+    
+    // Setup Toggle untuk masing-masing bagian
+    toggleInput('chkStatusLain', 'inputStatusLain');
+    toggleInput('chkProgramLain', 'inputProgramLain');
+    
+    // Khusus Radio Button Peran
+    const radioPeran = document.querySelectorAll('input[name="PeranDiminati"]');
+    const inputPeran = document.getElementById('inputPeranLain');
+    radioPeran.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if(radio.value === 'Lainnya') {
+                inputPeran.classList.remove('hidden');
+            } else {
+                inputPeran.classList.add('hidden');
+            }
+        });
+    });
+
+    // --- SUBMIT FORM ---
     const form = document.getElementById('formRelawan');
     const notif = document.getElementById('notif');
     const btn = document.getElementById('btnSubmit');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        btn.innerText = "Mencatat Data...";
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
+    if(form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btn.innerText = "Mencatat Data...";
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
 
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
 
-        // Helper: Gabungkan value checkbox menjadi string koma
-        const handleCheckbox = (name) => {
-            const arr = [];
-            document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => arr.push(cb.value));
-            return arr.join(", ");
-        }
+            // --- HELPER: Gabung Checkbox + Text Input Lainnya ---
+            const handleComplexCheckbox = (name, inputId) => {
+                const arr = [];
+                // Ambil checkbox biasa
+                document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => {
+                    if(cb.value !== 'Lainnya') arr.push(cb.value);
+                });
+                
+                // Cek opsi Lainnya
+                const otherInput = document.getElementById(inputId);
+                if(otherInput && !otherInput.classList.contains('hidden') && otherInput.value.trim() !== '') {
+                    arr.push(`Lainnya: ${otherInput.value.trim()}`);
+                }
+                
+                return arr.join(", ");
+            }
 
-        data.StatusAfiliasi = handleCheckbox('StatusAfiliasi');
-        data.AsalProgram = handleCheckbox('AsalProgram');
-        data.Keahlian = handleCheckbox('Keahlian');
+            // --- HELPER: Gabung Radio + Text Input Lainnya ---
+            const handleComplexRadio = (name, inputId) => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (!selected) return "";
+                
+                if (selected.value === 'Lainnya') {
+                     const otherInput = document.getElementById(inputId);
+                     return otherInput ? `Lainnya: ${otherInput.value.trim()}` : "Lainnya";
+                }
+                return selected.value;
+            }
 
-        try {
-            await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            notif.innerText = "✅ Terima Kasih! Data Anda berhasil disimpan.";
-            notif.className = "mt-6 text-center font-bold text-green-800 bg-green-100 p-4 rounded-lg block border border-green-200";
-            form.reset();
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        } catch (err) {
-            notif.innerText = "❌ Gagal mengirim. Cek koneksi Anda.";
-            notif.className = "mt-6 text-center font-bold text-red-800 bg-red-100 p-4 rounded-lg block border border-red-200";
-        } finally {
-            btn.innerText = "KIRIM FORMULIR RELAWAN";
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }
-    });
+            // Apply Helper
+            data.StatusAfiliasi = handleComplexCheckbox('StatusAfiliasi', 'inputStatusLain');
+            data.AsalProgram = handleComplexCheckbox('AsalProgram', 'inputProgramLain');
+            
+            // Keahlian (masih checkbox biasa)
+            const keahlianArr = [];
+            document.querySelectorAll(`input[name="Keahlian"]:checked`).forEach(cb => keahlianArr.push(cb.value));
+            data.Keahlian = keahlianArr.join(", ");
+
+            // Peran (Radio)
+            data.PeranDiminati = handleComplexRadio('PeranDiminati', 'inputPeranLain');
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                notif.innerText = "✅ Terima Kasih! Data Anda berhasil disimpan. Kami akan menghubungi Anda segera.";
+                notif.className = "mt-6 text-center font-bold text-green-800 bg-green-100 p-4 rounded-lg block border border-green-200";
+                form.reset();
+                // Sembunyikan input text lainnya setelah reset
+                document.querySelectorAll('input[type="text"].hidden').forEach(el => el.classList.add('hidden')); 
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } catch (err) {
+                notif.innerText = "❌ Gagal mengirim. Cek koneksi Anda.";
+                notif.className = "mt-6 text-center font-bold text-red-800 bg-red-100 p-4 rounded-lg block border border-red-200";
+            } finally {
+                btn.innerText = "KIRIM FORMULIR RELAWAN";
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+    }
   </script>
 </Layout>

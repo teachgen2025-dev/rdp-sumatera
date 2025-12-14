@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Command Center RDP">
+<Layout title="Command Center RDP - Batch 1">
     <div class="space-y-6 pb-12">
         
         <div class="bg-gray-900 text-white p-6 rounded-xl shadow-lg">
@@ -46,81 +46,92 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div id="viewRelawan" class="hidden space-y-6 animate-fade-in">
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-green-100">
-                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-green-500 pl-3">Afiliasi Relawan</h3>
-                    <div class="h-64"><canvas id="chartAfiliasi"></canvas></div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-green-100">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-green-500 pl-3">Sebaran Asal Program</h3>
                     <div class="h-64"><canvas id="chartProgram"></canvas></div>
                 </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-blue-500 pl-3">Peran yang Diminati</h3>
+                    <div class="h-64"><canvas id="chartPeran"></canvas></div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-green-100 lg:col-span-1">
-                    <h3 class="font-bold text-gray-800 mb-4 border-l-4 border-blue-500 pl-3">Top Kompetensi</h3>
-                    <div class="h-64"><canvas id="chartKeahlian"></canvas></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-600 mb-2">Pernah Respon Bencana?</h4>
+                    <div class="h-40"><canvas id="chartPengalaman"></canvas></div>
                 </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-green-100 lg:col-span-2 overflow-hidden flex flex-col">
-                    <div class="p-4 bg-green-50 border-b border-green-100 flex justify-between items-center">
-                        <h3 class="font-bold text-green-800">Relawan Terdaftar (Real-time)</h3>
-                    </div>
-                    <div class="overflow-x-auto flex-grow">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs text-gray-500 uppercase bg-gray-50">
-                                <tr>
-                                    <th class="px-4 py-3">Nama</th>
-                                    <th class="px-4 py-3">Status</th>
-                                    <th class="px-4 py-3">Program</th>
-                                    <th class="px-4 py-3">Domisili</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableRelawanBody" class="text-gray-700"></tbody>
-                        </table>
-                    </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-600 mb-2">Durasi Siap</h4>
+                    <div class="h-40"><canvas id="chartDurasi"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-600 mb-2">Transportasi Pribadi</h4>
+                    <div class="h-40"><canvas id="chartTransport"></canvas></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-600 mb-2">Bersedia Tinggal di Lokasi?</h4>
+                    <div class="h-40"><canvas id="chartLokasiRelawan"></canvas></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[600px]">
+                <div class="p-4 bg-green-50 border-b border-green-100 flex justify-between items-center shrink-0">
+                    <h3 class="font-bold text-green-800">Database Relawan (All Data)</h3>
+                    <span class="text-xs text-gray-500 italic">*Scroll ke bawah untuk melihat semua</span>
+                </div>
+                <div class="overflow-auto flex-grow custom-scrollbar">
+                    <table class="w-full text-sm text-left relative">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 z-10 shadow-sm">
+                            <tr>
+                                <th class="px-4 py-3 bg-gray-100">Nama</th>
+                                <th class="px-4 py-3 bg-gray-100">Program</th>
+                                <th class="px-4 py-3 bg-gray-100">Domisili</th>
+                                <th class="px-4 py-3 bg-gray-100">Detail Pengalaman</th>
+                                <th class="px-4 py-3 bg-gray-100">Motivasi</th>
+                                <th class="px-4 py-3 bg-gray-100">Siap?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableRelawanBody" class="text-gray-700">
+                            </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
         <div id="viewPenyintas" class="hidden space-y-6 animate-fade-in">
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-orange-100">
-                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-red-500 pl-3">Prioritas Kebutuhan Logistik</h3>
-                    <p class="text-xs text-gray-400 mb-4">Berdasarkan request kepala keluarga</p>
+                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-red-500 pl-3">Kebutuhan Logistik</h3>
                     <div class="h-64"><canvas id="chartKebutuhan"></canvas></div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-orange-100">
-                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-orange-500 pl-3">Sebaran Lokasi Pengungsian</h3>
-                    <div class="h-64 flex justify-center"><canvas id="chartLokasi"></canvas></div>
+                    <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-orange-500 pl-3">Lokasi Pengungsian</h3>
+                    <div class="h-64 flex justify-center"><canvas id="chartLokasiPenyintas"></canvas></div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white rounded-xl shadow-sm border border-orange-100 lg:col-span-1 flex flex-col h-96">
                     <div class="p-4 bg-orange-50 border-b border-orange-200">
-                        <h3 class="font-bold text-orange-800 flex items-center gap-2">
-                            <span>📡</span> Live Laporan Kondisi
-                        </h3>
+                        <h3 class="font-bold text-orange-800">📡 Live Laporan Kondisi</h3>
                     </div>
-                    <div id="feedKondisi" class="flex-grow overflow-y-auto p-4 space-y-3 custom-scrollbar">
-                        </div>
+                    <div id="feedKondisi" class="flex-grow overflow-y-auto p-4 space-y-3 custom-scrollbar"></div>
                 </div>
-
                 <div class="bg-white rounded-xl shadow-sm border border-orange-100 lg:col-span-2 overflow-hidden h-96 flex flex-col">
                     <div class="p-4 bg-orange-50 border-b border-orange-200">
                         <h3 class="font-bold text-orange-800">Database Keluarga Penyintas</h3>
                     </div>
-                    <div class="overflow-x-auto flex-grow">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+                    <div class="overflow-x-auto flex-grow custom-scrollbar">
+                        <table class="w-full text-sm text-left sticky top-0">
+                            <thead class="text-xs text-gray-500 uppercase bg-gray-50 sticky top-0">
                                 <tr>
-                                    <th class="px-4 py-3">Nama KK</th>
-                                    <th class="px-4 py-3 text-center">Jml Jiwa</th>
-                                    <th class="px-4 py-3">Lokasi</th>
-                                    <th class="px-4 py-3">Kebutuhan Utama</th>
+                                    <th class="px-4 py-3 bg-gray-50">Nama KK</th>
+                                    <th class="px-4 py-3 bg-gray-50 text-center">Jiwa</th>
+                                    <th class="px-4 py-3 bg-gray-50">Lokasi</th>
+                                    <th class="px-4 py-3 bg-gray-50">Kebutuhan</th>
                                 </tr>
                             </thead>
                             <tbody id="tablePenyintasBody" class="text-gray-700"></tbody>
@@ -134,49 +145,57 @@ import Layout from '../layouts/Layout.astro';
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxUMAtYm_UqGQpu3sxU2FsgRqDT7Epuvqa79Ia_L6FIVTJ0T2tt4ZVOdqC0RQ1yTbk/exec"; // PASTE URL DISINI
+        const API_URL = "https://script.google.com/macros/s/AKfycbxUMAtYm_UqGQpu3sxU2FsgRqDT7Epuvqa79Ia_L6FIVTJ0T2tt4ZVOdqC0RQ1yTbk/exec"; 
 
-        // --- GLOBAL DATA STORE ---
         let relawanData = [];
         let penyintasData = [];
 
-        // --- UTILS ---
         const $ = (id) => document.getElementById(id);
+        
+        // Helper: Hitung jumlah tag (untuk checkbox/text)
         const countTags = (arr, key) => {
             let c = {};
             arr.forEach(i => {
                 if(i[key]) i[key].toString().split(',').forEach(t => {
-                    let tag = t.trim(); if(tag && tag!=='-') c[tag] = (c[tag]||0)+1;
+                    let tag = t.trim(); 
+                    if(tag && tag!=='-' && !tag.toLowerCase().includes('lainnya:')) { // Filter text "Lainnya:" agar chart bersih
+                        c[tag] = (c[tag]||0)+1;
+                    } else if (tag.toLowerCase().includes('lainnya:')) {
+                        // Opsional: Kelompokkan semua "Lainnya" jadi satu kategori chart
+                        c['Lainnya'] = (c['Lainnya']||0)+1; 
+                    }
                 });
             });
             return Object.entries(c).sort((a,b)=>b[1]-a[1]);
         };
 
-        // --- TOGGLE LOGIC ---
+        // Helper: Create Simple Pie/Doughnut Chart
+        const createPie = (canvasId, data, colors) => {
+            new Chart($(canvasId), {
+                type: 'doughnut',
+                data: { 
+                    labels: data.map(x=>x[0]), 
+                    datasets: [{ data: data.map(x=>x[1]), backgroundColor: colors, borderWidth: 1 }] 
+                },
+                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels:{boxWidth:10} } } }
+            });
+        };
+
         window.switchView = (mode) => {
-            const btnR = $('btnRelawan');
-            const btnP = $('btnPenyintas');
-            const viewR = $('viewRelawan');
-            const viewP = $('viewPenyintas');
+            const btnR = $('btnRelawan'); const btnP = $('btnPenyintas');
+            const viewR = $('viewRelawan'); const viewP = $('viewPenyintas');
 
             if(mode === 'relawan') {
-                // Style Button
                 btnR.className = "px-6 py-2 rounded-full text-sm font-bold transition-all bg-green-600 text-white shadow";
                 btnP.className = "px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all";
-                // Show/Hide
-                viewR.classList.remove('hidden');
-                viewP.classList.add('hidden');
+                viewR.classList.remove('hidden'); viewP.classList.add('hidden');
             } else {
-                // Style Button
                 btnP.className = "px-6 py-2 rounded-full text-sm font-bold transition-all bg-orange-500 text-white shadow";
                 btnR.className = "px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all";
-                // Show/Hide
-                viewP.classList.remove('hidden');
-                viewR.classList.add('hidden');
+                viewP.classList.remove('hidden'); viewR.classList.add('hidden');
             }
         };
 
-        // --- MAIN INIT ---
         async function init() {
             try {
                 const res = await fetch(API_URL);
@@ -185,27 +204,100 @@ import Layout from '../layouts/Layout.astro';
                 relawanData = json.data.relawan;
                 penyintasData = json.data.penyintas;
 
-                // 1. Update Global KPI
+                // KPI Global
                 $('globalRelawan').innerText = relawanData.length;
                 $('globalPenyintas').innerText = penyintasData.length;
-                
-                // Hitung Total Jiwa (Sum JumlahKeluarga)
-                let totalJiwa = 0;
-                penyintasData.forEach(p => totalJiwa += parseInt(p.JumlahKeluarga || 0));
+                let totalJiwa = 0; penyintasData.forEach(p => totalJiwa += parseInt(p.JumlahKeluarga || 0));
                 $('globalJiwa').innerText = totalJiwa;
 
-                // 2. Render Relawan View
-                renderRelawanCharts();
-                renderRelawanTable();
+                // --- RENDER RELAWAN ---
+                // 1. Chart Program
+                const pr = countTags(relawanData, 'AsalProgram');
+                new Chart($('chartProgram'), {
+                    type: 'bar',
+                    data: { labels: pr.map(x=>x[0]), datasets: [{ label:'Jumlah', data: pr.map(x=>x[1]), backgroundColor: '#059669' }] },
+                    options: { maintainAspectRatio: false, indexAxis: 'y', plugins:{legend:{display:false}} }
+                });
 
-                // 3. Render Penyintas View
-                renderPenyintasCharts();
-                renderPenyintasTable();
-                renderFeedKondisi();
+                // 2. Chart Peran
+                const peran = countTags(relawanData, 'PeranDiminati');
+                createPie('chartPeran', peran, ['#3b82f6', '#8b5cf6', '#ef4444', '#f59e0b', '#10b981']);
 
-                // 4. Finish Loading
+                // 3. New Insights Charts
+                const exp = countTags(relawanData, 'PengalamanBencana');
+                createPie('chartPengalaman', exp, ['#10b981', '#ef4444']); // Hijau (Ya), Merah (Tidak)
+
+                const dur = countTags(relawanData, 'DurasiSiap');
+                createPie('chartDurasi', dur, ['#f59e0b', '#3b82f6', '#6366f1']);
+
+                const trans = countTags(relawanData, 'Transportasi');
+                createPie('chartTransport', trans, ['#8b5cf6', '#cbd5e1']);
+
+                const bersedia = countTags(relawanData, 'BersediaDiLokasi');
+                createPie('chartLokasiRelawan', bersedia, ['#16a34a', '#fca5a5']);
+
+                // 4. Tabel Relawan Lengkap (Scrollable)
+                const tR = $('tableRelawanBody');
+                // Balik urutan agar yg baru diatas
+                [...relawanData].reverse().forEach(r => {
+                    tR.innerHTML += `
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-900 truncate max-w-[150px]" title="${r.Nama}">${r.Nama}</td>
+                        <td class="px-4 py-3 text-xs text-gray-500 truncate max-w-[120px]" title="${r.AsalProgram}">${r.AsalProgram||'-'}</td>
+                        <td class="px-4 py-3 text-sm truncate max-w-[100px]">${r.Domisili}</td>
+                        <td class="px-4 py-3 text-xs italic text-gray-600 truncate max-w-[200px] cursor-help" title="${r.DetailPengalaman || ''}">
+                            ${r.DetailPengalaman || '-'}
+                        </td>
+                        <td class="px-4 py-3 text-xs italic text-gray-600 truncate max-w-[200px] cursor-help" title="${r.Motivasi || ''}">
+                            ${r.Motivasi || '-'}
+                        </td>
+                        <td class="px-4 py-3 text-xs font-bold text-center">
+                            <span class="${r.BersediaDiLokasi === 'Ya' ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100'} px-2 py-1 rounded">
+                                ${r.BersediaDiLokasi === 'Ya' ? 'Stay' : 'PP'}
+                            </span>
+                        </td>
+                    </tr>`;
+                });
+
+                // --- RENDER PENYINTAS ---
+                const kb = countTags(penyintasData, 'Kebutuhan');
+                new Chart($('chartKebutuhan'), {
+                    type: 'bar',
+                    data: { labels: kb.map(x=>x[0]), datasets: [{ data: kb.map(x=>x[1]), backgroundColor: '#dc2626', label:'Request', borderRadius:4 }] },
+                    options: { maintainAspectRatio: false, plugins:{legend:{display:false}} }
+                });
+
+                const loc = countTags(penyintasData, 'Lokasi');
+                createPie('chartLokasiPenyintas', loc, ['#f97316','#f59e0b','#84cc16','#14b8a6']);
+
+                // Tabel & Feed
+                const tP = $('tablePenyintasBody');
+                [...penyintasData].reverse().forEach(p => {
+                    tP.innerHTML += `
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-900">${p.NamaKK}</td>
+                        <td class="px-4 py-3 text-center"><span class="font-bold text-orange-600">${p.JumlahKeluarga||'0'}</span></td>
+                        <td class="px-4 py-3 text-xs text-gray-500">${p.Lokasi}</td>
+                        <td class="px-4 py-3 text-xs text-red-600 truncate max-w-[100px]">${p.Kebutuhan||'-'}</td>
+                    </tr>`;
+                });
+
+                const feed = $('feedKondisi');
+                const stories = penyintasData.filter(p => p.GambaranKondisi && p.GambaranKondisi.length > 5).reverse();
+                if(stories.length === 0) feed.innerHTML = `<p class="text-sm text-gray-400 italic text-center mt-10">Belum ada laporan.</p>`;
+                stories.forEach(s => {
+                    feed.innerHTML += `
+                    <div class="bg-white p-3 rounded border border-gray-200 shadow-sm text-sm">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold text-orange-700">${s.NamaKK}</span>
+                            <span class="text-[10px] bg-gray-100 px-1 rounded text-gray-500">${s.Lokasi}</span>
+                        </div>
+                        <p class="text-gray-600 italic">"${s.GambaranKondisi}"</p>
+                    </div>`;
+                });
+
                 $('loading').classList.add('hidden');
-                $('viewRelawan').classList.remove('hidden'); // Default view
+                $('viewRelawan').classList.remove('hidden');
 
             } catch (e) {
                 console.error(e);
@@ -213,104 +305,11 @@ import Layout from '../layouts/Layout.astro';
             }
         }
 
-        // --- RENDER FUNCTIONS RELAWAN ---
-        function renderRelawanCharts() {
-            // Afiliasi
-            const af = countTags(relawanData, 'StatusAfiliasi');
-            new Chart($('chartAfiliasi'), {
-                type: 'pie',
-                data: { labels: af.map(x=>x[0]), datasets: [{ data: af.map(x=>x[1]), backgroundColor: ['#16a34a','#2563eb','#facc15','#94a3b8'] }] },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
-            });
-
-            // Program
-            const pr = countTags(relawanData, 'AsalProgram').filter(x => x[0] !== 'Lainnya');
-            new Chart($('chartProgram'), {
-                type: 'bar',
-                data: { labels: pr.map(x=>x[0]), datasets: [{ data: pr.map(x=>x[1]), backgroundColor: '#059669', label:'Alumni' }] },
-                options: { maintainAspectRatio: false, indexAxis: 'y', plugins:{legend:{display:false}} }
-            });
-
-            // Keahlian
-            const sk = countTags(relawanData, 'Keahlian').slice(0,5);
-            new Chart($('chartKeahlian'), {
-                type: 'doughnut',
-                data: { labels: sk.map(x=>x[0]), datasets: [{ data: sk.map(x=>x[1]), backgroundColor: ['#4f46e5','#8b5cf6','#ec4899','#f43f5e','#f97316'] }] },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
-
-        function renderRelawanTable() {
-            const t = $('tableRelawanBody');
-            relawanData.slice().reverse().slice(0,8).forEach(r => {
-                t.innerHTML += `
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-4 py-3 font-medium text-gray-900">${r.Nama}</td>
-                    <td class="px-4 py-3"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${r.StatusAfiliasi||'-'}</span></td>
-                    <td class="px-4 py-3 text-xs text-gray-500">${r.AsalProgram||'-'}</td>
-                    <td class="px-4 py-3 text-gray-500">${r.Domisili}</td>
-                </tr>`;
-            });
-        }
-
-        // --- RENDER FUNCTIONS PENYINTAS ---
-        function renderPenyintasCharts() {
-            // Kebutuhan
-            const kb = countTags(penyintasData, 'Kebutuhan');
-            new Chart($('chartKebutuhan'), {
-                type: 'bar',
-                data: { labels: kb.map(x=>x[0]), datasets: [{ data: kb.map(x=>x[1]), backgroundColor: '#dc2626', label:'Request', borderRadius:4 }] },
-                options: { maintainAspectRatio: false, plugins:{legend:{display:false}} }
-            });
-
-            // Lokasi
-            const loc = countTags(penyintasData, 'Lokasi');
-            new Chart($('chartLokasi'), {
-                type: 'pie',
-                data: { labels: loc.map(x=>x[0]), datasets: [{ data: loc.map(x=>x[1]), backgroundColor: ['#f97316','#f59e0b','#84cc16','#14b8a6'] }] },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
-
-        function renderFeedKondisi() {
-            const feed = $('feedKondisi');
-            // Filter yg punya cerita saja
-            const stories = penyintasData.filter(p => p.GambaranKondisi && p.GambaranKondisi.length > 5).reverse();
-            
-            if(stories.length === 0) {
-                feed.innerHTML = `<p class="text-sm text-gray-400 italic text-center mt-10">Belum ada laporan kondisi.</p>`;
-            }
-
-            stories.forEach(s => {
-                feed.innerHTML += `
-                <div class="bg-white p-3 rounded border border-gray-200 shadow-sm text-sm">
-                    <div class="flex justify-between mb-1">
-                        <span class="font-bold text-orange-700">${s.NamaKK}</span>
-                        <span class="text-[10px] bg-gray-100 px-1 rounded text-gray-500">${s.Lokasi}</span>
-                    </div>
-                    <p class="text-gray-600 italic">"${s.GambaranKondisi}"</p>
-                </div>`;
-            });
-        }
-
-        function renderPenyintasTable() {
-            const t = $('tablePenyintasBody');
-            penyintasData.slice().reverse().slice(0,8).forEach(p => {
-                t.innerHTML += `
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-4 py-3 font-medium text-gray-900">${p.NamaKK}</td>
-                    <td class="px-4 py-3 text-center"><span class="font-bold text-orange-600">${p.JumlahKeluarga||'0'}</span></td>
-                    <td class="px-4 py-3 text-xs text-gray-500">${p.Lokasi}</td>
-                    <td class="px-4 py-3 text-xs text-red-600 truncate max-w-[100px]">${p.Kebutuhan||'-'}</td>
-                </tr>`;
-            });
-        }
-
         init();
     </script>
 
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
